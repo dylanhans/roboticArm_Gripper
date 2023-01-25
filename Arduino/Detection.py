@@ -1,5 +1,6 @@
-/* This file is to identify human real-time motion 
-   and ensure safety precautions are in place*/
+//PYCHARM
+// This file is to identify human real-time motion 
+// and ensure safety precautions are in place
   
   //Open cv library import
   import cv2
