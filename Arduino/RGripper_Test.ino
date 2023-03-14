@@ -99,11 +99,11 @@ void stop(){
 }
 
 void Grab(){ 
-      /*for (float i=30;i<=90;i+=0.1)
+      for (float i=30;i<=90;i+=0.1)
       pwm.setPWM(0, 0, pulseWidth(i));
       //Serial.println(sensorValue); 
       delay(200);
-      for (float i=90;i<=150;i+=0.05)
+      for (float i=90;i<=160;i+=0.05)
         pwm.setPWM(0, 0, pulseWidth(i));
         //Serial.println(sensorValue); 
         delay(200);
@@ -111,12 +111,11 @@ void Grab(){
       pwm.setPWM(1, 0, pulseWidth(j));
       //Serial.println(sensorValue); 
       delay(200);
-      for (float j=90;j<=150;j+=0.05)
+      for (float j=90;j<=160;j+=0.05)
         pwm.setPWM(1, 0, pulseWidth(j));
         //Serial.println(sensorValue); 
-        delay(200)*/
-      pwm.setPWM(0, 0, pulseWidth(180));
-
+        delay(200);
+  delay(3000);
     while(Serial.available()==0)
   {
     int sensorValue1 = analogRead(A2);
@@ -165,8 +164,21 @@ void Grab(){
   }
 }
 
-
-
+void ReducePressure(){
+      pwm.setPWM(0, 0, pulseWidth(120));
+      pwm.setPWM(1, 0, pulseWidth(120));
+      //Serial.println(sensorValue); 
+      delay(200);
+    int sensorValue1 = analogRead(A2);
+    int sensorValue2 = analogRead(A3);
+    // print out the value you read:
+    sensorValue2 = (sensorValue2);
+    sensorValue1 = (sensorValue1);
+    Serial.println("Pressure Value 1: ");
+    Serial.println(sensorValue1);
+    Serial.println("Pressure Value 2: ");
+    Serial.println(sensorValue2);
+}
 
 void Sensor1Active(){
     while(Serial.available()==0)
@@ -179,7 +191,11 @@ void Sensor1Active(){
     Serial.println(sensorValue1);
     Serial.println("Pressure Value 2: ");
     Serial.println(sensorValue2);
+    if (sensorValue1>600 || sensorValue2>600){
+     Serial.println("Pressure Exceeded, Reducing now.");
+     ReducePressure();
   }
+}
 }
 
 void Sensor12Active(){
@@ -194,7 +210,11 @@ void Sensor12Active(){
     Serial.println(sensorValue1);
     Serial.println("Pressure Value 2: ");
     Serial.println(sensorValue2);
+    if (sensorValue1>600 || sensorValue2>600){
+      Serial.println("Pressure Exceeded, Reducing now.");
+      ReducePressure();
   }
+}
 }
 
 void Sensor2Active(){
@@ -207,7 +227,11 @@ void Sensor2Active(){
     Serial.println(sensorValue1);
     Serial.println("Pressure Value 2: ");
     Serial.println(sensorValue2);
+    if (sensorValue1>600 || sensorValue2>600){
+      Serial.println("Pressure Exceeded, Reducing now.");
+      ReducePressure();
   }
+}
 }
 void HighFive(){
     pwm.setPWM(0, 0, pulseWidth(0));
