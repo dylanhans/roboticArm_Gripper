@@ -30,8 +30,6 @@ int pulseWidth(int angle) {
   int pulse_wide, analog_value;
   pulse_wide = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
   analog_value = int(float(pulse_wide) / 1000000 * FREQUENCY * 4096);
-  //Serial.println(angle);
-  //Serial.println(analog_value);
   return analog_value;
 }
 
@@ -57,8 +55,6 @@ void setup()
 
 void loop() {
   while (Serial.available() == 0) {}
-  // print out the value you read:
-  //sensorValue = (sensorValue);
   menuInput = Serial.parseInt();
 
     if (menuInput == 1){
@@ -170,7 +166,7 @@ void Sensor1Active(){
      Serial.println("Pressure Exceeded, Reducing now.");
      ReducePressure();
   }
-}
+ }
 }
 
 void Sensor12Active(){
@@ -206,7 +202,7 @@ void Sensor2Active(){
       Serial.println("Pressure Exceeded, Reducing now.");
       ReducePressure();
   }
-}
+ }
 }
 void HighFive(){
     pwm.setPWM(0, 0, pulseWidth(0));
@@ -244,48 +240,56 @@ void First(){
 }
 
 void Second(){
-     for (float i=30;i<=90;i+=0.1)
+  for (float i=30;i<=90;i+=0.1)
+    pwm.setPWM(1, 0, pulseWidth(i));
+    delay(200);
+    for (float i=90;i<=160;i+=0.05)
       pwm.setPWM(1, 0, pulseWidth(i));
-      //Serial.println(sensorValue); 
       delay(200);
-      for (float i=90;i<=160;i+=0.05)
-        pwm.setPWM(1, 0, pulseWidth(i));
-        //Serial.println(sensorValue); 
-        delay(200);
+        
+  delay(3000);
     while(Serial.available()==0)
   {
     int sensorValue1 = analogRead(A2);
-    // print out the value you read:
-    sensorValue1 = (sensorValue1);
-    Serial.println("Pressure Value 1: ");
-    Serial.println(sensorValue1);
     int sensorValue2 = analogRead(A3);
-    sensorValue2 = (sensorValue2);
-    Serial.println("Pressure Value 2: ");
-    Serial.println(sensorValue2);
+    if (sensorValue2>200 && sensorValue1>200){
+      Sensor12Active();
+    }
+    else if (sensorValue1>200 && sensorValue2<150){
+      Sensor1Active();
+    }
+    else if (sensorValue2>200 && sensorValue1<150){
+      Sensor2Active();
+    }
+    else
+      Serial.println("No pressure");
   }
 }
 
 void Third(){
-     for (float i=30;i<=90;i+=0.1)
+  for (float i=30;i<=90;i+=0.1)
+    pwm.setPWM(2, 0, pulseWidth(i));
+    delay(200);
+    for (float i=90;i<=160;i+=0.05)
       pwm.setPWM(2, 0, pulseWidth(i));
-      //Serial.println(sensorValue); 
       delay(200);
-      for (float i=90;i<=160;i+=0.05)
-        pwm.setPWM(2, 0, pulseWidth(i));
-        //Serial.println(sensorValue); 
-        delay(200);
+        
+  delay(3000);
     while(Serial.available()==0)
   {
     int sensorValue1 = analogRead(A2);
-    // print out the value you read:
-    sensorValue1 = (sensorValue1);
-    Serial.println("Pressure Value 1: ");
-    Serial.println(sensorValue1);
     int sensorValue2 = analogRead(A3);
-    sensorValue2 = (sensorValue2);
-    Serial.println("Pressure Value 2: ");
-    Serial.println(sensorValue2);
+    if (sensorValue2>200 && sensorValue1>200){
+      Sensor12Active();
+    }
+    else if (sensorValue1>200 && sensorValue2<150){
+      Sensor1Active();
+    }
+    else if (sensorValue2>200 && sensorValue1<150){
+      Sensor2Active();
+    }
+    else
+      Serial.println("No pressure");
   }
 }
 
@@ -299,7 +303,7 @@ void(* resetFunc) (void) = 0;
 
 void afterAction() {
   Serial.println("\n");
-  Serial.println("Release Gripper? Release (1) Exit (2)\n");
+  Serial.println("Release Gripper? (1) Release | (2) Exit \n");
   while (Serial.available() == 0) {
   }
 
