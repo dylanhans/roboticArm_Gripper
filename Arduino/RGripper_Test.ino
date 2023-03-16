@@ -99,22 +99,27 @@ void stop(){
 }
 
 void Grab(){ 
-      for (float i=30;i<=90;i+=0.1)
+    for (float i=30;i<=90;i+=0.1)
       pwm.setPWM(0, 0, pulseWidth(i));
-      //Serial.println(sensorValue); 
       delay(200);
       for (float i=90;i<=160;i+=0.05)
         pwm.setPWM(0, 0, pulseWidth(i));
-        //Serial.println(sensorValue); 
         delay(200);
-      for (float j=30;j<=90;j+=0.1)
+          
+    for (float j=30;j<=90;j+=0.1)
       pwm.setPWM(1, 0, pulseWidth(j));
-      //Serial.println(sensorValue); 
       delay(200);
       for (float j=90;j<=160;j+=0.05)
         pwm.setPWM(1, 0, pulseWidth(j));
-        //Serial.println(sensorValue); 
         delay(200);
+          
+    for (float h=30;h<=90;h+=0.1)
+      pwm.setPWM(2, 0, pulseWidth(h));      
+      delay(200);
+      for (float h=90;h<=160;h+=0.05)
+        pwm.setPWM(2, 0, pulseWidth(h));        
+        delay(200);
+        
   delay(3000);
     while(Serial.available()==0)
   {
@@ -131,44 +136,14 @@ void Grab(){
     }
     else
       Serial.println("No pressure");
-    /*for (float i=0;i<=90;i+=0.2)
-      pwm.setPWM(0, 0, pulseWidth(i));
-      Serial.println(sensorValue1); 
-      Serial.println(sensorValue2); 
-      delay(200);
-      for (float i=90;i<=150;i+=0.08)
-        pwm.setPWM(0, 0, pulseWidth(i));
-        Serial.println(sensorValue1); 
-        Serial.println(sensorValue2); 
-        delay(200);
-    for (float j=0;j<=90;j+=0.2)
-      pwm.setPWM(1, 0, pulseWidth(j));
-      Serial.println(sensorValue1); 
-      Serial.println(sensorValue2);       
-      delay(200);
-      for (float j=90;j<=150;j+=0.08)
-        pwm.setPWM(1, 0, pulseWidth(j));
-      Serial.println(sensorValue1); 
-      Serial.println(sensorValue2);         
-      delay(200);
-    for (float h=0;h<=90;h+=0.2)
-      pwm.setPWM(2, 0, pulseWidth(h));
-      Serial.println(sensorValue1); 
-      Serial.println(sensorValue2);       
-      delay(200);
-      for (float h=90;h<=150;h+=0.08)
-        pwm.setPWM(2, 0, pulseWidth(h));
-      Serial.println(sensorValue1); 
-      Serial.println(sensorValue2);         
-      delay(200);*/
   }
 }
 
 void ReducePressure(){
-      pwm.setPWM(0, 0, pulseWidth(120));
-      pwm.setPWM(1, 0, pulseWidth(120));
-      //Serial.println(sensorValue); 
-      delay(200);
+    pwm.setPWM(0, 0, pulseWidth(120));
+    pwm.setPWM(1, 0, pulseWidth(120));
+    //Serial.println(sensorValue); 
+    delay(200);
     int sensorValue1 = analogRead(A2);
     int sensorValue2 = analogRead(A3);
     // print out the value you read:
@@ -237,32 +212,34 @@ void HighFive(){
     pwm.setPWM(0, 0, pulseWidth(0));
     pwm.setPWM(1, 0, pulseWidth(0));
     pwm.setPWM(2, 0, pulseWidth(0));
+    Serial.println("High Five!");
 }
 
 void First(){
-   
-    for (float i=30;i<=90;i+=0.1)
+
+  for (float i=30;i<=90;i+=0.1)
+    pwm.setPWM(0, 0, pulseWidth(i));
+    delay(200);
+    for (float i=90;i<=160;i+=0.05)
       pwm.setPWM(0, 0, pulseWidth(i));
-      //Serial.println(sensorValue); 
       delay(200);
-      for (float i=90;i<=180;i+=0.05)
-        pwm.setPWM(0, 0, pulseWidth(i));
-        //Serial.println(sensorValue); 
-        delay(200);
+        
+  delay(3000);
     while(Serial.available()==0)
   {
-
     int sensorValue1 = analogRead(A2);
-    // print out the value you read:
-    sensorValue1 = (sensorValue1);
-    Serial.println("Pressure Value 1: ");
-    Serial.println(sensorValue1);
     int sensorValue2 = analogRead(A3);
-    sensorValue2 = (sensorValue2);
-    Serial.println("Pressure Value 2: ");
-    Serial.println(sensorValue2);
-
-  //if (sensorValue>
+    if (sensorValue2>200 && sensorValue1>200){
+      Sensor12Active();
+    }
+    else if (sensorValue1>200 && sensorValue2<150){
+      Sensor1Active();
+    }
+    else if (sensorValue2>200 && sensorValue1<150){
+      Sensor2Active();
+    }
+    else
+      Serial.println("No pressure");
   }
 }
 
@@ -271,7 +248,7 @@ void Second(){
       pwm.setPWM(1, 0, pulseWidth(i));
       //Serial.println(sensorValue); 
       delay(200);
-      for (float i=90;i<=150;i+=0.05)
+      for (float i=90;i<=160;i+=0.05)
         pwm.setPWM(1, 0, pulseWidth(i));
         //Serial.println(sensorValue); 
         delay(200);
@@ -286,13 +263,30 @@ void Second(){
     sensorValue2 = (sensorValue2);
     Serial.println("Pressure Value 2: ");
     Serial.println(sensorValue2);
-
-  //if (sensorValue>
   }
 }
 
 void Third(){
-    pwm.setPWM(2, 0, pulseWidth(180));
+     for (float i=30;i<=90;i+=0.1)
+      pwm.setPWM(2, 0, pulseWidth(i));
+      //Serial.println(sensorValue); 
+      delay(200);
+      for (float i=90;i<=160;i+=0.05)
+        pwm.setPWM(2, 0, pulseWidth(i));
+        //Serial.println(sensorValue); 
+        delay(200);
+    while(Serial.available()==0)
+  {
+    int sensorValue1 = analogRead(A2);
+    // print out the value you read:
+    sensorValue1 = (sensorValue1);
+    Serial.println("Pressure Value 1: ");
+    Serial.println(sensorValue1);
+    int sensorValue2 = analogRead(A3);
+    sensorValue2 = (sensorValue2);
+    Serial.println("Pressure Value 2: ");
+    Serial.println(sensorValue2);
+  }
 }
 
 void Reset(){
