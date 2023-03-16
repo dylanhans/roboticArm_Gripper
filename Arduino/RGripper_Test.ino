@@ -38,19 +38,18 @@ void setup()
   Serial.begin(9600);
   delay(2000);
   Serial.println("Panda Gripper Function:");
-  Serial.println("(1) Grab | (2) HighFive | (3) First Finger | (4) Second Finger | (5) Third Finger | (6) Exit");
+  Serial.println("(1) Grab | (2) High Five | (3) First Finger | (4) Second Finger | (5) Third Finger | (6) Exit");
   pwm.begin();
   pwm.setPWMFreq(60);
   reset();
   int sensorValue1 = analogRead(A2);
-    // print out the value you read:
-    sensorValue1 = (sensorValue1);
-    Serial.println("Initial Pressure Value 1: ");
-    Serial.println(sensorValue1);
-    int sensorValue2 = analogRead(A3);
-    sensorValue2 = (sensorValue2);
-    Serial.println("Initial Pressure Value 2: ");
-    Serial.println(sensorValue2);
+  sensorValue1 = (sensorValue1);
+  Serial.println("Initial Pressure Value 1: ");
+  Serial.println(sensorValue1);
+  int sensorValue2 = analogRead(A3);
+  sensorValue2 = (sensorValue2);
+  Serial.println("Initial Pressure Value 2: ");
+  Serial.println(sensorValue2);
 }
 
 void loop() {
@@ -138,7 +137,6 @@ void Grab(){
 void ReducePressure(){
     pwm.setPWM(0, 0, pulseWidth(120));
     pwm.setPWM(1, 0, pulseWidth(120));
-    //Serial.println(sensorValue); 
     delay(200);
     int sensorValue1 = analogRead(A2);
     int sensorValue2 = analogRead(A3);
@@ -155,7 +153,6 @@ void Sensor1Active(){
     while(Serial.available()==0)
   {
     int sensorValue1 = analogRead(A2);
-    // print out the value you read:
     sensorValue2 = (sensorValue1);
     sensorValue1 = (sensorValue1);
     Serial.println("Pressure Value 1: ");
@@ -174,7 +171,6 @@ void Sensor12Active(){
   {
     int sensorValue1 = analogRead(A2);
     int sensorValue2 = analogRead(A3);
-    // print out the value you read:
     sensorValue2 = (sensorValue2);
     sensorValue1 = (sensorValue1);
     Serial.println("Pressure Value 1: ");
